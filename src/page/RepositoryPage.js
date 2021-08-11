@@ -1,33 +1,21 @@
 import React from 'react';
 import {Card, ListGroup, ListGroupItem} from "react-bootstrap";
 import {useSelector} from "react-redux";
-import { useHistory, useParams} from 'react-router-dom'
+import { useParams} from 'react-router-dom'
 
 
 
 const RepositoryPage = () => {
-    const history = useHistory();
+
     const reposList = useSelector(state => state.list);
-    console.log(reposList)
-
     const {id} = useParams();
+    const repository = reposList.filter(item => item.id === Number(id))[0];
 
-
-    const repository = reposList.filter(item => item.id == id)[0];
-    // const [repository, setRepository] = useState();
-
-
-
-
-
-    console.log(repository)
-    function handleClick(url) {
-        window.open(url);
-    }
+    function handleClick(url) { window.open(url)}
 
     return (
-        <div className='d-flex justify-content-center mt-5'>
-            <Card style={{ width: '25%' }}>
+        <div className='d-flex justify-content-center mt-5 '>
+            <Card style={{ width: '25%' }} className='shadow'>
                 <Card.Img variant="top" src={repository.owner.avatar_url}/>
                 <Card.Body>
                     <Card.Title>Login: {repository.owner.login}</Card.Title>
@@ -41,7 +29,7 @@ const RepositoryPage = () => {
                     <ListGroupItem>Language: {repository.language}</ListGroupItem>
                 </ListGroup>
                 <Card.Body>
-                    <Card.Link  onClick={()=>handleClick(repository.html_url)}>Repository Link</Card.Link>
+                    <Card.Link style={{cursor: 'pointer'}} onClick={()=>handleClick(repository.html_url)}>Repository Link</Card.Link>
                 </Card.Body>
             </Card>
             

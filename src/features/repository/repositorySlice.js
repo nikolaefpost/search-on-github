@@ -10,17 +10,22 @@ export const repositorySlice = createSlice({
             const { id } = action.payload
             const favoriteRepos = state.list.find(item => item.id === id)
             if (favoriteRepos) {
-                favoriteRepos.isFavorite = true
+                favoriteRepos.isFavorite = favoriteRepos.isFavorite?  false : true
             }
         },
         addRepository: (state, action) => {
             state.list.push(...action.payload)
-            // state.push(action.payload)
+        },
+        sortRepository: (state, action) => {
+            state.list=action.payload
+        },
+        nullRepository: (state) => {
+            state.list = null
         },
     },
 })
 
-// Action creators are generated for each case reducer function
-export const {  addFavorite, addRepository } = repositorySlice.actions
+
+export const {sortRepository,  addFavorite, addRepository, nullRepository } = repositorySlice.actions
 
 export default repositorySlice.reducer

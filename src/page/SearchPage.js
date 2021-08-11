@@ -1,23 +1,47 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {Button, Form, Container, Row} from "react-bootstrap";
-import {addRepository} from "../features/repository/repositorySlice";
+import {Button, Form, Container} from "react-bootstrap";
+import {addRepository,  nullRepository, sortRepository} from "../features/repository/repositorySlice";
 import ReposItem from "../components/ReposItem";
 
 
+
+
 const SearchPage = () => {
+
+    const [count, setCount] = useState(1);
+    const reposList = useSelector(state => state.list);
+    const dispatch = useDispatch();
+
     let inputLogin;
 
+    function handleChange(e) {
+        let sortBy = e.target.value;
+        let q = [...reposList]
 
-    const reposList = useSelector(state => state.list);
-    const dispatch = useDispatch()
-    console.log(reposList)
-    function handleSubmit  (e) {
+        if(sortBy==='date') {dispatch(sortRepository(q.sort(function (a, b) {
+            if (a.created_at > b.created_at) return 1;
+            if (a.created_at < b.created_at) return -1;
+            return 0;
+        })))}
+        else if(sortBy==='rating') {dispatch(sortRepository(q.sort(function (a, b) {
+            if (a.stargazers_count < b.stargazers_count) return 1;
+            if (a.stargazers_count > b.stargazers_count) return -1;
+            return 0;
+        })))}
+        else {dispatch(sortRepository(q.sort(function (a, b) {
+            if (a.name < b.name) return 1;
+            if (a.name > b.name) return -1;
+            return 0;
+        })))}
+    }
+
+    function handleSearch  () {
         if(!inputLogin.value) return;
-        e.preventDefault();
+        setCount(count + 1)
 
         fetch(
-            `https://api.github.com/users/${inputLogin.value}/repos`,
+            `https://api.github.com/search/repositories?q=${inputLogin.value}&sort=stars&order=des&page=${count}`,
             {
                 method: 'GET',
                 cache: 'no-cache',
@@ -28,12 +52,12 @@ const SearchPage = () => {
                 },
                 redirect: 'follow',
                 referrerPolicy: 'no-referrer',
-                // body: JSON.stringify(request)
             })
             .then(response => response.json())
             .then(items => {
-                console.log(items)
-                dispatch(addRepository(items))
+                (!items.items.length == 0)?
+                dispatch(addRepository(items.items)):
+                    dispatch(nullRepository())
                 console.log("LOAD")
             })
             .catch(err => {
@@ -47,19 +71,46 @@ const SearchPage = () => {
 
     return (
         <Container>
-            <h4 className='text-center mt-5'>Search repositories by login</h4>
-            <Form onSubmit={handleSubmit} className='d-flex align-items-center justify-content-center my-5'>
 
-                <div className='mr-2'>ENTER LOGIN: </div>
-                <input className='mr-2 p-1' type='text' ref={node => {inputLogin = node;}} />
-                <Button variant='outline-success' type="submit">GO</Button>
+            <div className='border p-3 mt-5 mb-2 bg-light rounded'>
+                <h3 className='text-center fw-bold mb-4'>SEARCH REPOSITORIES BY NAME</h3>
+                <Form className='d-flex align-items-center justify-content-center my-3'>
 
-            </Form>
+                    <div className='mr-2'>ENTER SEARCH WORD: </div>
+                    <input className='mr-2 p-1' type='text' ref={node => {inputLogin = node;}}  />
+                    <Button variant='outline-success' onClick={handleSearch}>GO</Button>
+
+                    <Button variant="secondary" onClick={() => {
+                        // history.push(REPOS_ROUTE )
+                        console.log(JSON.parse(localStorage.getItem('repo')))
+                    }}
+                            className='ml-auto mb-2 '>
+                        view favorite in console
+                    </Button>
+                </Form>
+                <form className='d-flex justify-content-center align-items-center'>
+                    <div>SORTING</div>
+                    <select className='p-2 ml-3 ' variant="secondary" onChange={handleChange}>
+                        <option value="rating">by rating</option>
+                        <option value="name">by name</option>
+                        <option  value="date">date</option>
+                    </select>
+                </form>
+            </div>
+
             <Container className=''>
-                {reposList.map(repos=>
+                {(!reposList)? <div className='text-center text-danger'>SEARCH FAILED</div> :
+                    reposList.map(repos=>
                     <ReposItem key={repos.id} repos={repos}/>
                 )}
             </Container>
+            <div className='d-flex justify-content-center'>
+                <Button variant="secondary" onClick={handleSearch}
+                        className='w-25 mt-2 mb-5'>
+                    more
+                </Button>
+            </div>
+
         </Container>
 
 
@@ -69,88 +120,3 @@ const SearchPage = () => {
 export default SearchPage;
 
 
-// class AllModels extends React.Component {
-//     constructor() {
-//         super();
-//
-//         this.state = {
-//             valueLogin: '',
-//             valueRepos: ''
-//         }
-//     }
-//
-//     doRead() {
-//
-//
-//         fetch(
-//             `https://api.github.com/users/${this.state.valueLogin}/${this.state.valueRepos}`,
-//             {
-//                 method: 'GET',
-//                 cache: 'no-cache',
-//                 // mode: 'no-cors',
-//                 credentials: 'same-origin',
-//                 headers: {
-//                     // 'Content-Type': 'application/json',
-//                     // 'X-Requested-With': 'XMLHttpRequest'
-//                 },
-//                 redirect: 'follow',
-//                 referrerPolicy: 'no-referrer',
-//                 // body: JSON.stringify(request)
-//             })
-//             .then(response => response.json())
-//             .then(items => {
-//                 this.setState(
-//                     {
-//                         isLoaded: true,
-//                         items: items
-//
-//                     }
-//                 )
-//                 console.log(items)
-//             })
-//             .catch(err => {
-//                     this.setState(
-//                         {
-//                             error: err
-//                         })
-//                 }
-//             );
-//     }
-//
-//     componentDidMount() {
-//         this.doRead();
-//         console.log('я создан и примонтирован')
-//     }
-//
-//     render() {
-//         if (this.state.error) return this.renderErorr()
-//         else if (this.state.isLoaded) return this.renderItems()
-//         return (
-//             <div> preloader</div>
-//         )
-//     }
-//
-//     renderItems() {
-//         return (
-//             <ul id='areaList' className='row'>{
-//                 this.state.items.map(item => (
-//                         <li key={item.id} className='col-3 list-group-item' >
-//                             <AllModelsItem item={item}></AllModelsItem>
-//                         </li>
-//
-//                     )
-//                 )
-//             }
-//
-//             </ul>
-//         )
-//     }
-//
-//     renderErorr() {
-//         return (
-//             <div>Error :{this.state.error.message()} </div>
-//         )
-//     }
-// }
-//
-// // export default AllModels;
