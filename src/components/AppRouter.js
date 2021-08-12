@@ -9,7 +9,6 @@ const AppRouter = () => {
             {routes.map(({path, Component})=>
                 <Route key={path} path={path} component={Component} exact />
             )}
-
             <Redirect to={SEARCH_ROUTE}/>
         </Switch>
     );

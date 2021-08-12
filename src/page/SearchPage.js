@@ -72,30 +72,33 @@ const SearchPage = () => {
     return (
         <Container>
 
-            <div className='border p-3 mt-5 mb-2 bg-light rounded'>
-                <h3 className='text-center fw-bold mb-4'>SEARCH REPOSITORIES BY NAME</h3>
-                <Form className='d-flex align-items-center justify-content-center my-3'>
+            <div className='border p-3  row mt-5 mb-2 bg-light rounded'>
+                <h4 className='text-center fw-bold mb-4  col-sm-12'>SEARCH REPOSITORIES BY NAME</h4>
+                <Form className='col-sm-12  align-items-center text-center my-3'>
+                    <div className='row justify-content-sm-center '>
+                        <div className='col-sm-12'>ENTER SEARCH WORD: </div>
+                        <input className=' my-sm-3  col-sm-6 ' type='text' ref={node => {inputLogin = node;}}  />
+                        <Button variant='outline-success' className='col-sm-2 my-sm-3' onClick={handleSearch}>GO</Button>
+                    </div>
+                    <div className='row justify-content-sm-center'>
+                        <Button variant="secondary" onClick={() => {
+                            // history.push(REPOS_ROUTE )
+                            console.log(JSON.parse(localStorage.getItem('repo')))
+                        }}
+                                className='col-sm-5 '>
+                            view favorite in console
+                        </Button>
+                    </div>
 
-                    <div className='mr-2'>ENTER SEARCH WORD: </div>
-                    <input className='mr-2 p-1' type='text' ref={node => {inputLogin = node;}}  />
-                    <Button variant='outline-success' onClick={handleSearch}>GO</Button>
-
-                    <Button variant="secondary" onClick={() => {
-                        // history.push(REPOS_ROUTE )
-                        console.log(JSON.parse(localStorage.getItem('repo')))
-                    }}
-                            className='ml-auto mb-2 '>
-                        view favorite in console
-                    </Button>
                 </Form>
-                <form className='d-flex justify-content-center align-items-center'>
-                    <div>SORTING</div>
-                    <select className='p-2 ml-3 ' variant="secondary" onChange={handleChange}>
+                {(reposList.length>0)&&<form className='row justify-content-center align-items-center'>
+                    <div className='col-sm-3'>SORTING</div>
+                    <select className='p-2 col-sm-4 ' variant="secondary" onChange={handleChange}>
                         <option value="rating">by rating</option>
                         <option value="name">by name</option>
-                        <option  value="date">date</option>
+                        <option value="date">date</option>
                     </select>
-                </form>
+                </form>}
             </div>
 
             <Container className=''>
@@ -104,12 +107,12 @@ const SearchPage = () => {
                     <ReposItem key={repos.id} repos={repos}/>
                 )}
             </Container>
-            <div className='d-flex justify-content-center'>
+            {(reposList.length>0)&&<div className='d-flex justify-content-center'>
                 <Button variant="secondary" onClick={handleSearch}
                         className='w-25 mt-2 mb-5'>
                     more
                 </Button>
-            </div>
+            </div>}
 
         </Container>
 
