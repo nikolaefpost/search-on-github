@@ -14,9 +14,9 @@ const RepositoryPage = () => {
     function handleClick(url) { window.open(url)}
 
     return (
-        <div className='d-flex justify-content-center mt-5 '>
-            <Card style={{ width: '25%' }} className='shadow'>
-                <Card.Img variant="top" src={repository.owner.avatar_url}/>
+        <div className='d-flex justify-content-center  w-100' style={{marginTop: "10vh"}}>
+            <Card  className='shadow '>
+                <Card.Img className='p-2' variant="top" src={repository.owner.avatar_url}/>
                 <Card.Body>
                     <Card.Title>Login: {repository.owner.login}</Card.Title>
                     <Card.Title>Repository: {repository.name}</Card.Title>

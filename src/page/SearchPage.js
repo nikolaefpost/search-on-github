@@ -36,7 +36,8 @@ const SearchPage = () => {
         })))}
     }
 
-    function handleSearch  () {
+    function handleSearch  (e) {
+        e.preventDefault();
         if(!inputLogin.value) return;
         setCount(count + 1)
 
@@ -74,26 +75,25 @@ const SearchPage = () => {
 
             <div className='border p-3  row mt-5 mb-2 bg-light rounded'>
                 <h4 className='text-center fw-bold mb-4  col-sm-12'>SEARCH REPOSITORIES BY NAME</h4>
-                <Form className='col-sm-12  align-items-center text-center my-3'>
+                <Form className='col-sm-12  align-items-center text-center my-3' onSubmit={handleSearch}>
                     <div className='row justify-content-sm-center '>
                         <div className='col-sm-12'>ENTER SEARCH WORD: </div>
-                        <input className=' my-sm-3  col-sm-6 ' type='text' ref={node => {inputLogin = node;}}  />
-                        <Button variant='outline-success' className='col-sm-2 my-sm-3' onClick={handleSearch}>GO</Button>
+                        <input className=' my-sm-3  col-sm-6 col-lg-4' type='text' ref={node => {inputLogin = node;}}  />
+                        <Button variant='outline-success' className='col-sm-2 col-lg-1 my-sm-3' onClick={handleSearch}>GO</Button>
                     </div>
                     <div className='row justify-content-sm-center'>
                         <Button variant="secondary" onClick={() => {
-                            // history.push(REPOS_ROUTE )
                             console.log(JSON.parse(localStorage.getItem('repo')))
                         }}
-                                className='col-sm-5 '>
+                                className='col-sm-8 col-lg-5 col-xl-4'>
                             view favorite in console
                         </Button>
                     </div>
 
                 </Form>
                 {(reposList.length>0)&&<form className='row justify-content-center align-items-center'>
-                    <div className='col-sm-3'>SORTING</div>
-                    <select className='p-2 col-sm-4 ' variant="secondary" onChange={handleChange}>
+                    <div className='col-sm-3 col-lg-2 col-xl-1'>SORTING</div>
+                    <select className='p-2 col-sm-4 col-lg-3 col-xl-2' variant="secondary" onChange={handleChange}>
                         <option value="rating">by rating</option>
                         <option value="name">by name</option>
                         <option value="date">date</option>

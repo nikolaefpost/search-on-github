@@ -1,9 +1,13 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Modal} from "react-bootstrap";
 
 
    const Greetings = ({show, onHide}) => {
-    setInterval(onHide, 3000)
+
+       useEffect(() => {
+           const timer = setTimeout(onHide, 1000);
+           return () => clearTimeout(timer);
+       });
 
         return (
             <Modal
