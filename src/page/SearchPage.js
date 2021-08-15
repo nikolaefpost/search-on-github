@@ -37,7 +37,7 @@ const SearchPage = () => {
     }
 
     function handleSearch  (e) {
-        if (e) e.preventDefault();
+        e?.preventDefault();
         if(!searchWord ) return;
         dispatch(increment())
 
@@ -56,7 +56,7 @@ const SearchPage = () => {
             })
             .then(response => response.json())
             .then(items => {
-                (!items.items.length == 0)?
+                (items.items.length > 0)?
                 dispatch(addRepository(items.items)):
                     dispatch(nullRepository())
                 console.log("LOAD")
@@ -73,19 +73,17 @@ const SearchPage = () => {
                 <h4 className='text-center fw-bold mb-4  col-sm-12'>SEARCH REPOSITORIES BY NAME</h4>
                 <Form className='col-sm-12  align-items-center text-center my-3' onSubmit={(e)=> {
                     handleSearch(e);
-                    dispatch(nullRepository())
+                    dispatch(nullRepository());
                 }}>
                     <div className='row justify-content-sm-center '>
                         <div className='col-sm-12'>ENTER SEARCH WORD: </div>
                         <input className=' my-sm-3  col-sm-6 col-lg-4' type='text' value={searchWord} onChange={(e)=> {
-                            dispatch(addWord(e.target.value))
-                            dispatch(zeroing())
-
-
+                            dispatch(addWord(e.target.value));
+                            dispatch(zeroing());
                         }}  />
                         <Button variant='outline-success' className='col-sm-2 col-lg-1 my-sm-3' onClick={()=> {
                             handleSearch();
-                            dispatch(nullRepository())
+                            dispatch(nullRepository());
                         }}>GO</Button>
                     </div>
                     <div className='row justify-content-sm-center'>
@@ -115,10 +113,7 @@ const SearchPage = () => {
                 )}
             </Container>
             {(reposList.length>0)&&<div className='d-flex justify-content-center'>
-                <Button variant="secondary" onClick={()=> {
-
-                    handleSearch ()
-                }}
+                <Button variant="secondary" onClick={handleSearch}
                         className='w-25 mt-2 mb-5'>
                     load {count} page
                 </Button>
