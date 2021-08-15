@@ -20,7 +20,7 @@ export const repositorySlice = createSlice({
             state.list=action.payload
         },
         nullRepository: (state) => {
-            state.list = null
+            state.list = []
         },
     },
 })

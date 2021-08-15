@@ -2,7 +2,7 @@ import React from 'react';
 import {useHistory} from 'react-router-dom'
 import {REPOS_ROUTE} from "../utils/consts";
 import {Button} from "react-bootstrap";
-import {addFavorite} from "../features/repository/repositorySlice";
+import {addFavorite} from "../features/reducers/repositorySlice";
 import {useDispatch} from "react-redux";
 
 

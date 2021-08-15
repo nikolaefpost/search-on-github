@@ -3,20 +3,18 @@ import {Card, ListGroup, ListGroupItem} from "react-bootstrap";
 import {useSelector} from "react-redux";
 import { useParams} from 'react-router-dom'
 
-
-
 const RepositoryPage = () => {
 
-    const reposList = useSelector(state => state.list);
+    const reposList = useSelector(state => state.repository.list);
     const {id} = useParams();
     const repository = reposList.filter(item => item.id === Number(id))[0];
 
     function handleClick(url) { window.open(url)}
 
     return (
-        <div className='d-flex justify-content-center  w-100' style={{marginTop: "10vh"}}>
+        <div className='d-flex justify-content-center  ' style={{marginTop: "50px", width: '90%', marginLeft: 'auto', marginRight: 'auto'}}>
             <Card  className='shadow '>
-                <Card.Img className='p-2' variant="top" src={repository.owner.avatar_url}/>
+                <Card.Img className='p-2' style={{width: '500'}} variant="top" src={repository.owner.avatar_url}/>
                 <Card.Body>
                     <Card.Title>Login: {repository.owner.login}</Card.Title>
                     <Card.Title>Repository: {repository.name}</Card.Title>

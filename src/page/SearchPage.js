@@ -1,19 +1,19 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {Button, Form, Container} from "react-bootstrap";
-import {addRepository,  nullRepository, sortRepository} from "../features/repository/repositorySlice";
+import {addRepository,  nullRepository, sortRepository} from "../features/reducers/repositorySlice";
 import ReposItem from "../components/ReposItem";
-
-
+import {addWord} from "../features/reducers/searchWordSlice";
+import {increment, zeroing} from "../features/reducers/countSlice";
 
 
 const SearchPage = () => {
 
-    const [count, setCount] = useState(1);
-    const reposList = useSelector(state => state.list);
+    const count = useSelector(state => state.count.value);
+    const reposList = useSelector(state => state.repository.list);
+    const searchWord = useSelector(state => state.words.word);
     const dispatch = useDispatch();
 
-    let inputLogin;
 
     function handleChange(e) {
         let sortBy = e.target.value;
@@ -37,12 +37,12 @@ const SearchPage = () => {
     }
 
     function handleSearch  (e) {
-        e.preventDefault();
-        if(!inputLogin.value) return;
-        setCount(count + 1)
+        if (e) e.preventDefault();
+        if(!searchWord ) return;
+        dispatch(increment())
 
         fetch(
-            `https://api.github.com/search/repositories?q=${inputLogin.value}&sort=stars&order=des&page=${count}`,
+            `https://api.github.com/search/repositories?q=${searchWord}&sort=stars&order=des&page=${count}`,
             {
                 method: 'GET',
                 cache: 'no-cache',
@@ -65,21 +65,28 @@ const SearchPage = () => {
                 console.log(err)
                 }
             );
-
     }
-
-
 
     return (
         <Container>
-
             <div className='border p-3  row mt-5 mb-2 bg-light rounded'>
                 <h4 className='text-center fw-bold mb-4  col-sm-12'>SEARCH REPOSITORIES BY NAME</h4>
-                <Form className='col-sm-12  align-items-center text-center my-3' onSubmit={handleSearch}>
+                <Form className='col-sm-12  align-items-center text-center my-3' onSubmit={(e)=> {
+                    handleSearch(e);
+                    dispatch(nullRepository())
+                }}>
                     <div className='row justify-content-sm-center '>
                         <div className='col-sm-12'>ENTER SEARCH WORD: </div>
-                        <input className=' my-sm-3  col-sm-6 col-lg-4' type='text' ref={node => {inputLogin = node;}}  />
-                        <Button variant='outline-success' className='col-sm-2 col-lg-1 my-sm-3' onClick={handleSearch}>GO</Button>
+                        <input className=' my-sm-3  col-sm-6 col-lg-4' type='text' value={searchWord} onChange={(e)=> {
+                            dispatch(addWord(e.target.value))
+                            dispatch(zeroing())
+
+
+                        }}  />
+                        <Button variant='outline-success' className='col-sm-2 col-lg-1 my-sm-3' onClick={()=> {
+                            handleSearch();
+                            dispatch(nullRepository())
+                        }}>GO</Button>
                     </div>
                     <div className='row justify-content-sm-center'>
                         <Button variant="secondary" onClick={() => {
@@ -108,9 +115,12 @@ const SearchPage = () => {
                 )}
             </Container>
             {(reposList.length>0)&&<div className='d-flex justify-content-center'>
-                <Button variant="secondary" onClick={handleSearch}
+                <Button variant="secondary" onClick={()=> {
+
+                    handleSearch ()
+                }}
                         className='w-25 mt-2 mb-5'>
-                    more
+                    load {count} page
                 </Button>
             </div>}
 
