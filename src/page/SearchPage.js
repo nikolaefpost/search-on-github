@@ -77,14 +77,14 @@ const SearchPage = () => {
                 }}>
                     <div className='row justify-content-sm-center '>
                         <div className='col-sm-12'>ENTER SEARCH WORD: </div>
-                        <input className=' my-sm-3  col-sm-6 col-lg-4' type='text' value={searchWord} onChange={(e)=> {
+                        <input className=' my-sm-3  col-sm-5 col-lg-4' type='text' value={searchWord} onChange={(e)=> {
                             dispatch(addWord(e.target.value));
                             dispatch(zeroing());
                         }}  />
-                        <Button variant='outline-success' className='col-sm-2 col-lg-1 my-sm-3' onClick={()=> {
+                        <Button variant='outline-success' className='col-sm-3 col-lg-2 my-sm-3' onClick={()=> {
                             handleSearch();
                             dispatch(nullRepository());
-                        }}>GO</Button>
+                        }}>go to page {count}</Button>
                     </div>
                     <div className='row justify-content-sm-center'>
                         <Button variant="secondary" onClick={() => {
