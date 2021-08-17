@@ -18,7 +18,7 @@ import { Modal} from "react-bootstrap";
             >
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-center">
-                        Емельянов Эдуард
+                        Yemelyanov Eduard
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>

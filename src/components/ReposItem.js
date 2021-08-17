@@ -42,9 +42,7 @@ const ReposItem = (props) => {
 
 
                         </div>
-                        {/*<div className='row p-sm-2 p-md-4 p-xxl-2 justify-content-between justify-content-xxl-start'>*/}
-                        {/*    */}
-                        {/*</div>*/}
+
                     </div>
 
 

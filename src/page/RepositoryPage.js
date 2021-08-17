@@ -7,18 +7,23 @@ import {SEARCH_ROUTE} from "../utils/consts";
 
 const RepositoryPage = () => {
 
+    const {id} = useParams();
+
     const history = useHistory();
     const reposList = useSelector(state => state.repository.list);
-    if (reposList.length<1) history.push(SEARCH_ROUTE)
+    if (reposList.length<1) {
+        history.push(SEARCH_ROUTE);
+        return null;
+    }
 
-    const {id} = useParams();
+
     const repository = reposList.filter(item => item.id === Number(id))[0];
 
     function handleClick(url) { window.open(url)}
 
     return (
         <div className='d-flex justify-content-center  ' style={{marginTop: "50px", width: '90%', marginLeft: 'auto', marginRight: 'auto'}}>
-            {(reposList.length>1)&&<Card className='shadow '>
+            <Card className='shadow '>
                 <Card.Img className='p-2' style={{width: '500'}} variant="top" src={repository.owner.avatar_url}/>
                 <Card.Body>
                     <Card.Title>Login: {repository.owner.login}</Card.Title>
@@ -35,7 +40,7 @@ const RepositoryPage = () => {
                     <Card.Link style={{cursor: 'pointer'}} onClick={() => handleClick(repository.html_url)}>Repository
                         Link</Card.Link>
                 </Card.Body>
-            </Card>}
+            </Card>
 
         </div>
     );
