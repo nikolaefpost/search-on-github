@@ -2,18 +2,50 @@ import {BrowserRouter} from 'react-router-dom';
 import AppRouter from "./components/AppRouter";
 import React, {useState} from "react";
 import Greetings from "./page/Greetings";
+import {ThemeContext, themes } from "./features/context/theme-context"
 
 
-function App() {
-    const [greetings, setGreetings] = useState(true)
-  return (
-      <BrowserRouter className='bg-info'>
+class App extends React.Component {
 
-        <AppRouter/>
-          <Greetings show={greetings} onHide={()=>setGreetings(false)} />
+    constructor(props) {
+        super(props);
 
-      </BrowserRouter>
-  );
+        this.toggleTheme = () => {
+            this.setState(state => ({
+                theme:
+                    state.theme === themes.dark
+                        ? themes.light
+                        : themes.dark,
+            }));
+        };
+
+        // Состояние хранит функцию для обновления контекста,
+        // которая будет также передана в Provider-компонент.
+        this.state = {
+            theme: themes.light,
+            toggleTheme: this.toggleTheme,
+            greetings: true
+        };
+    }
+
+    render(){
+
+        return (
+
+            <ThemeContext.Provider value={this.state}>
+                <BrowserRouter className='bg-info'>
+
+                    <AppRouter/>
+                    {/*<Greetings show={this.state.greetings} onHide={()=>this.setState({greetings: false})} />*/}
+
+                </BrowserRouter>
+            </ThemeContext.Provider>
+
+
+        );
+    }
+
+
 }
 
 export default App;

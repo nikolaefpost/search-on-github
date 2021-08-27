@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {Button, Form, Container} from "react-bootstrap";
 import {addRepository,  nullRepository, sortRepository} from "../features/reducers/repositorySlice";
 import ReposItem from "../components/ReposItem";
 import {addWord} from "../features/reducers/searchWordSlice";
 import {increment, zeroing} from "../features/reducers/countSlice";
+import ThemeTogglerButton from "../components/ThemeTogglerButton";
+import {ThemeContext} from "../features/context/theme-context";
 
 
 const SearchPage = () => {
@@ -13,6 +15,9 @@ const SearchPage = () => {
     const reposList = useSelector(state => state.repository.list);
     const searchWord = useSelector(state => state.words.word);
     const dispatch = useDispatch();
+
+    const theme = useContext(ThemeContext);
+    console.log(theme.theme.background)
 
 
     function handleChange(e) {
@@ -69,7 +74,21 @@ const SearchPage = () => {
 
     return (
         <Container>
-            <div className='border p-3  row mt-5 mb-2 bg-light rounded'>
+            <div className='d-flex flex-row justify-content-between'>
+
+                <ThemeTogglerButton/>
+
+                <button   onClick={() => {
+                    console.log(JSON.parse(localStorage.getItem('repo')))
+                }}
+                        className='my-2 shadow rounded'
+                style={{backgroundColor: theme.theme.background, color: theme.theme.foreground, border: 'none'}}>
+                    view favorite in console
+                </button>
+
+            </div>
+
+            <div className='border p-3  row mt-5 mb-2  rounded' style={{backgroundColor: theme.theme.background, color: theme.theme.foreground}}>
                 <h4 className='text-center fw-bold mb-4  col-sm-12'>SEARCH REPOSITORIES BY NAME</h4>
                 <Form className='col-sm-12  align-items-center text-center my-3' onSubmit={(e)=> {
                     handleSearch(e);
@@ -85,14 +104,10 @@ const SearchPage = () => {
                             handleSearch();
                             dispatch(nullRepository());
                         }}>go to page {count}</Button>
+
                     </div>
                     <div className='row justify-content-sm-center'>
-                        <Button variant="secondary" onClick={() => {
-                            console.log(JSON.parse(localStorage.getItem('repo')))
-                        }}
-                                className='col-sm-8 col-lg-5 col-xl-4'>
-                            view favorite in console
-                        </Button>
+
                     </div>
 
                 </Form>

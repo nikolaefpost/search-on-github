@@ -1,13 +1,16 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Card, ListGroup, ListGroupItem} from "react-bootstrap";
 import {useSelector} from "react-redux";
 import { useParams, useHistory} from 'react-router-dom'
 import {SEARCH_ROUTE} from "../utils/consts";
+import {ThemeContext} from "../features/context/theme-context";
 
 
 const RepositoryPage = () => {
 
     const {id} = useParams();
+    const theme = useContext(ThemeContext);
+    console.log(theme)
 
     const history = useHistory();
     const reposList = useSelector(state => state.repository.list);
