@@ -73,8 +73,8 @@ const SearchPage = () => {
     }
 
     return (
-        <Container>
-            <div className='d-flex flex-row justify-content-between'>
+        <div className='px-5 d-flex flex-column justify-content-start ' style={{ minHeight: '100vh',  backgroundColor: theme.theme.background, color: theme.theme.foreground}}>
+            <div className='d-flex flex-row justify-content-between '>
 
                 <ThemeTogglerButton/>
 
@@ -82,13 +82,13 @@ const SearchPage = () => {
                     console.log(JSON.parse(localStorage.getItem('repo')))
                 }}
                         className='my-2 shadow rounded'
-                style={{backgroundColor: theme.theme.background, color: theme.theme.foreground, border: 'none'}}>
+                style={{backgroundColor: theme.theme.background, color: theme.theme.foreground, borderColor: theme.theme.background === '#222222'? theme.theme.foreground: 'none'}}>
                     view favorite in console
                 </button>
 
             </div>
 
-            <div className='border p-3  row mt-5 mb-2  rounded' style={{backgroundColor: theme.theme.background, color: theme.theme.foreground}}>
+            <Container className='border p-3  row mx-auto  mb-2  rounded' >
                 <h4 className='text-center fw-bold mb-4  col-sm-12'>SEARCH REPOSITORIES BY NAME</h4>
                 <Form className='col-sm-12  align-items-center text-center my-3' onSubmit={(e)=> {
                     handleSearch(e);
@@ -100,7 +100,7 @@ const SearchPage = () => {
                             dispatch(addWord(e.target.value));
                             dispatch(zeroing());
                         }}  />
-                        <Button variant='outline-success' className='col-sm-3 col-lg-2 my-sm-3' onClick={()=> {
+                        <Button variant='outline-success' className='col-sm-3 col-lg-2 fw-bold my-sm-3' onClick={()=> {
                             handleSearch();
                             dispatch(nullRepository());
                         }}>go to page {count}</Button>
@@ -119,7 +119,7 @@ const SearchPage = () => {
                         <option value="date">date</option>
                     </select>
                 </form>}
-            </div>
+            </Container>
 
             <Container className=''>
                 {(!reposList)? <div className='text-center text-danger'>SEARCH FAILED</div> :
@@ -134,7 +134,7 @@ const SearchPage = () => {
                 </Button>
             </div>}
 
-        </Container>
+        </div>
 
 
     );
