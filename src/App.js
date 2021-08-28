@@ -1,6 +1,6 @@
 import {BrowserRouter} from 'react-router-dom';
 import AppRouter from "./components/AppRouter";
-import React, {useState} from "react";
+import React from "react";
 import Greetings from "./page/Greetings";
 import {ThemeContext, themes } from "./features/context/theme-context"
 
@@ -36,7 +36,7 @@ class App extends React.Component {
                 <BrowserRouter className='bg-info'>
 
                     <AppRouter/>
-                    {/*<Greetings show={this.state.greetings} onHide={()=>this.setState({greetings: false})} />*/}
+                    <Greetings />
 
                 </BrowserRouter>
             </ThemeContext.Provider>

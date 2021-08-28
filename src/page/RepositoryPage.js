@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {Card, ListGroup, ListGroupItem} from "react-bootstrap";
+import {Card} from "react-bootstrap";
 import {useSelector} from "react-redux";
 import { useParams, useHistory} from 'react-router-dom'
 import {SEARCH_ROUTE} from "../utils/consts";
@@ -12,7 +12,6 @@ const RepositoryPage = () => {
     const {id} = useParams();
     const theme = useContext(ThemeContext);
     let themeCard = theme.theme.background === '#eeeeee'? 'light' :'dark';
-    let themeBorder = theme.theme.background === '#eeeeee'? 'light' :'light';
 
     const history = useHistory();
     const reposList = useSelector(state => state.repository.list);
@@ -28,7 +27,7 @@ const RepositoryPage = () => {
 
     return (
         <div className='d-flex flex-column justify-content-center align-items-center p-5'
-             style={{ width: '100%', height:'100vh',   backgroundColor: theme.theme.background, color: theme.theme.foreground}}>
+             style={{ minHeight: '100vh',   backgroundColor: theme.theme.background, color: theme.theme.foreground}}>
 
 
 
