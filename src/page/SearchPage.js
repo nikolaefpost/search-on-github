@@ -86,6 +86,7 @@ const SearchPage = () => {
                     view favorite in console
                 </button>
 
+
             </div>
 
             <Container className='border p-3  row mx-auto  mb-2  rounded' >
@@ -104,7 +105,7 @@ const SearchPage = () => {
                             handleSearch();
                             dispatch(nullRepository());
                         }}>go to page {count}</Button>
-
+Добрый
                     </div>
                     <div className='row justify-content-sm-center'>
 
