@@ -7,6 +7,7 @@ import {addWord} from "../features/reducers/searchWordSlice";
 import {increment, zeroing} from "../features/reducers/countSlice";
 import ThemeTogglerButton from "../components/ThemeTogglerButton";
 import {ThemeContext} from "../features/context/theme-context";
+import {fetchRepos} from "../app/action_creators/repositories";
 
 
 const SearchPage = () => {
@@ -46,30 +47,31 @@ const SearchPage = () => {
         if(!searchWord ) return;
         dispatch(increment())
 
-        fetch(
-            `https://api.github.com/search/repositories?q=${searchWord}&sort=stars&order=des&page=${count}`,
-            {
-                method: 'GET',
-                cache: 'no-cache',
-                credentials: 'same-origin',
-                headers: {
-                    // 'Content-Type': 'application/json',
-                    // 'X-Requested-With': 'XMLHttpRequest'
-                },
-                redirect: 'follow',
-                referrerPolicy: 'no-referrer',
-            })
-            .then(response => response.json())
-            .then(items => {
-                (items.items.length > 0)?
-                dispatch(addRepository(items.items)):
-                    dispatch(nullRepository())
-                console.log("LOAD")
-            })
-            .catch(err => {
-                console.log(err)
-                }
-            );
+        // fetch(
+        //     `https://api.github.com/search/repositories?q=${searchWord}&sort=stars&order=des&page=${count}`,
+        //     {
+        //         method: 'GET',
+        //         cache: 'no-cache',
+        //         credentials: 'same-origin',
+        //         headers: {
+        //             // 'Content-Type': 'application/json',
+        //             // 'X-Requested-With': 'XMLHttpRequest'
+        //         },
+        //         redirect: 'follow',
+        //         referrerPolicy: 'no-referrer',
+        //     })
+        //     .then(response => response.json())
+        //     .then(items => {
+        //         (items.items.length > 0)?
+        //         dispatch(addRepository(items.items)):
+        //             dispatch(nullRepository())
+        //         console.log("LOAD")
+        //     })
+        //     .catch(err => {
+        //         console.log(err)
+        //         }
+        //     );
+        dispatch(fetchRepos(searchWord, count))
     }
 
     return (

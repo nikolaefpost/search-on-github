@@ -1,9 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
+import {fetchRepos} from "../../app/action_creators/repositories";
 
 export const repositorySlice = createSlice({
     name: 'repository',
     initialState: {
         list: [],
+        status: null,
+        error: null
     },
     reducers: {
         addFavorite: (state, action) => {
@@ -17,12 +20,25 @@ export const repositorySlice = createSlice({
             state.list.push(...action.payload)
         },
         sortRepository: (state, action) => {
-            state.list=action.payload
+            console.log(action)
+            state.list = action.payload
         },
         nullRepository: (state) => {
             state.list = []
         },
     },
+    extraReducers: {
+        [fetchRepos.pending]: (state) =>{
+            state.status = 'loading';
+            state.error = null;
+        },
+        [fetchRepos.fulfilled]: (state, action) =>{
+            console.log(action.payload)
+            state.status = 'resolved';
+            state.list = action.payload.items
+        },
+        [fetchRepos.rejected]: (state, action) =>{},
+    }
 })
 
 
