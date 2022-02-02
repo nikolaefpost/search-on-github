@@ -9,6 +9,9 @@ export const countSlice = createSlice({
         increment: state => {
             state.value += 1
         },
+        decrement: state => {
+            state.value -= 1
+        },
         zeroing: state => {
             state.value = 1
         }

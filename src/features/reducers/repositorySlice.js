@@ -16,9 +16,6 @@ export const repositorySlice = createSlice({
                 favoriteRepos.isFavorite = favoriteRepos.isFavorite?  false : true
             }
         },
-        addRepository: (state, action) => {
-            state.list.push(...action.payload)
-        },
         sortRepository: (state, action) => {
             console.log(action)
             state.list = action.payload
@@ -33,11 +30,14 @@ export const repositorySlice = createSlice({
             state.error = null;
         },
         [fetchRepos.fulfilled]: (state, action) =>{
-            console.log(action.payload)
             state.status = 'resolved';
             state.list = action.payload.items
         },
-        [fetchRepos.rejected]: (state, action) =>{},
+        [fetchRepos.rejected]: (state, action) =>{
+            console.log(action.payload)
+            state.status = 'rejected';
+            state.error = action.payload;
+        },
     }
 })
 
