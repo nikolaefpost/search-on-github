@@ -21,7 +21,7 @@ const ReposItem = (props) => {
     }
 
     return (<div>
-                <div className='text-light bg-secondary row  align-items-center mb-2 rounded ' >
+                <div className='text-light bg-secondary row  align-items-center mb-2 rounded ' onClick={() => {history.push(REPOS_ROUTE + '/' + props.repos.id)}}>
                     <img className='col-sm-3 col-lg-2 col-xl-1 img-thumbnail ' src={props.repos.owner.avatar_url} alt='device' width={64} height={64}  />
                     <div className='col-sm-9 col-lg-10 col-xl-11 '>
                         <div className='row flex-xxl-nowrap justify-content-between justify-content-xxl-start  px-sm-2 px-md-4 pt-lg-2 '>
@@ -29,7 +29,7 @@ const ReposItem = (props) => {
                             <div className='col-sm-3 col-xl-1 text-end align-self-xl-center'>{props.repos.stargazers_count} <i className="bi bi-star"></i></div>
 
                             <div className='col-sm-12 col-xl-5 align-self-xl-center xl'>repo: <span className='fw-bolder'>{props.repos.full_name}</span></div>
-                            <Button variant={'outline-light'} onClick={() => {history.push(REPOS_ROUTE + '/' + props.repos.id)}}
+                            <Button variant={'outline-light'}
                                     className=' col-sm-4 col-xl-2 mt-sm-2 mt-xl-0'>
                                 view more
                             </Button>

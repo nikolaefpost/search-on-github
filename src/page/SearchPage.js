@@ -94,11 +94,11 @@ const SearchPage = () => {
                         }}/>
                         <div className='row justify-content-center my-2'>
                             {count > 2 &&
-                                <Button variant='outline-success' className='col-6 col-sm-5 col-lg-2 fw-bold'
+                                <Button variant='outline-primary' className='col-12 col-sm-5 col-lg-2 fw-bold me-0 me-sm-2'
                                         onClick={back}>
                                     <span>go to page {count - 2}</span>
                                 </Button>}
-                            <Button variant='outline-success' className='col-6 col-sm-5 col-lg-2 fw-bold'
+                            <Button variant='outline-primary' className='col-12 mt-2 mt-sm-0 col-sm-5 col-lg-2 fw-bold'
                                     onClick={forward}>
                                 <span>go to page {count}</span>
                             </Button>
@@ -129,11 +129,11 @@ const SearchPage = () => {
                     )}
             </Container>
             {(list.length > 0) && <div className='d-flex justify-content-center'>
-                <Button variant="success" className='col-1 my-sm-3 me-2' disabled={count<=2}
+                <Button variant="primary" className='col-2 col-sm-1 my-sm-3 me-2' disabled={count<=2}
                         onClick={back}>
                     <i className="bi bi-chevron-double-left"></i>
                 </Button>
-                <Button variant="success" className='col-1 my-sm-3' onClick={forward}>
+                <Button variant="primary" className='col-2 col-sm-1 my-sm-3' onClick={forward}>
                     <i className="bi bi-chevron-double-right"></i>
                 </Button>
             </div>}
